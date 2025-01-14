@@ -1,4 +1,4 @@
-from src.bookFetcher.aws_book_downloader import AWSBookDownloader
+from DatalakeBuilder.src.bookFetcher.aws_book_downloader import AWSBookDownloader
 
 class BookFetcher:
 

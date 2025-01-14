@@ -1,5 +1,5 @@
-from src.uploader.dynamodb_uploader import DynamoDBUploader
-from src.uploader.mongodb_uploader import MongoDBUploader
+from DatalakeBuilder.src.uploader.dynamodb_uploader import DynamoDBUploader
+from DatalakeBuilder.src.uploader.mongodb_uploader import MongoDBUploader
 class Uploaders:
 
     __uploaders_keys = {
