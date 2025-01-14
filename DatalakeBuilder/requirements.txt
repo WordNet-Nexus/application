@@ -1,0 +1,4 @@
+boto3
+nltk
+hazelcast-python-client
+pymongo
