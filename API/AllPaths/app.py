@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
-from query_handler import QueryHandler
-from api import api_bp
+from AllPaths.query_handler import QueryHandler
+from .api import api_bp
 import os
 
 app = Flask(__name__)
