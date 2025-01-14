@@ -1,0 +1,48 @@
+name: GraphDrawer Module Tests
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  graphdrawer-tests:
+    runs-on: ubuntu-22.04
+
+    steps:
+    # Configura el repositorio
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Configura Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    # Instala dependencias
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r GraphDrawer/requirements.txt
+
+    # Configura variables de entorno
+    - name: Set environment variables
+      run: |
+        echo "MONGO_HOST=localhost" >> $GITHUB_ENV
+        echo "MONGO_PORT=27017" >> $GITHUB_ENV
+        echo "MONGO_DB_NAME=test_db" >> $GITHUB_ENV
+        echo "COLLECTION_NAME=test_collection" >> $GITHUB_ENV
+        echo "HAZELCAST_CLUSTER_MEMBERS=localhost" >> $GITHUB_ENV
+        echo "CLUSTER_NAME=test_cluster" >> $GITHUB_ENV
+        echo "DICT_NAME=test_dict" >> $GITHUB_ENV
+
+    # Ejecuta los tests
+    - name: Run GraphDrawer Tests
+      run: |
+        cd GraphDrawer
+        export PYTHONPATH=$GITHUB_WORKSPACE
+        python -m unittest discover -s tests
