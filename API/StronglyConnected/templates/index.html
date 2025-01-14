@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluster Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #loading p {
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+        }
+        #results {
+            margin-top: 20px;
+            display: none;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cluster Detection</h1>
+        <form id="cluster-form">
+            <label for="algorithm">Select Algorithm</label>
+            <select id="algorithm" name="algorithm">
+                <option value="louvain">Louvain</option>
+                <option value="wcc">Weakly Connected Components</option>
+            </select>
+
+            <button type="button" onclick="runAlgorithm()">Run</button>
+            <button type="button" onclick="downloadAllResults()">Download All Results</button>
+        </form>
+
+        <div class="form-group" id="visualize-form" style="display:none;">
+            <label for="cluster-number">Cluster Number</label>
+            <input type="number" id="cluster-number" name="cluster" placeholder="Enter cluster number">
+            <button type="button" onclick="displayCluster()">Display Cluster</button>
+        </div>
+
+        <div id="loading">
+            <p>Loading...</p>
+        </div>
+
+        <div id="results">
+            <h2>Results</h2>
+            <pre id="results-content"></pre>
+        </div>
+    </div>
+
+    <script>
+        const API_PREFIX = 'api';
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        function runAlgorithm() {
+            const algorithm = document.getElementById('algorithm').value;
+            showLoading();
+            fetch(`${API_PREFIX}/clusters?algorithm=${algorithm}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        document.getElementById('results-content').innerText = JSON.stringify(data.data, null, 2);
+                        document.getElementById('results').style.display = 'block';
+
+                        fetch(`${API_PREFIX}/clusters/results?property=${algorithm === 'louvain' ? 'community' : 'component'}`)
+                            .then(response => response.json())
+                            .then(resultsData => {
+                                if (resultsData.status === 'success') {
+                                    document.getElementById('results-content').innerText += "\nNodes:\n" + JSON.stringify(resultsData.data, null, 2);
+                                } else {
+                                    document.getElementById('results-content').innerText += "\nError: " + resultsData.message;
+                                }
+                                hideLoading();
+                            })
+                            .catch(error => {
+                                document.getElementById('results-content').innerText += "\nError fetching nodes: " + error.message;
+                                hideLoading();
+                            });
+
+                        document.getElementById('visualize-form').style.display = 'block';
+                    } else {
+                        alert(`Error: ${data.message}`);
+                        hideLoading();
+                    }
+                })
+                .catch(error => {
+                    alert(`Error: ${error.message}`);
+                    hideLoading();
+                });
+        }
+
+        function displayCluster() {
+            const clusterNumber = document.getElementById('cluster-number').value;
+            const algorithm = document.getElementById('algorithm').value;
+            if (!clusterNumber) {
+                alert('Please enter a cluster number.');
+                return;
+            }
+            const url = `display?cluster=${clusterNumber}&algorithm=${algorithm}`;
+            window.location.href = url;
+        }
+
+        function downloadAllResults() {
+            const algorithm = document.getElementById('algorithm').value;
+            const property = algorithm === 'louvain' ? 'community' : 'component';
+            fetch(`${API_PREFIX}/download/all_results?property=${property}`)
+                .then(response => response.json())
+                .then(data => {
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'all_results.json';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                })
+                .catch(error => alert(`Error downloading results: ${error.message}`));
+        }
+    </script>
+</body>
+</html>

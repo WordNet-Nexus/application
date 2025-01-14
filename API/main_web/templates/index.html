@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Applications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+        .card button:hover {
+            background-color: #2ecc71;
+        }
+        .card p {
+            margin-top: 15px;
+            color: #555;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .card button {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+            .card p {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to WordNet-Nexus Applications</h1>
+        <div class="grid">
+            <div class="card">
+                <button onclick="location.href='/shortest-path/'">Shortest Path</button>
+                <p>Find the shortest path between two nodes in a graph.</p>
+            </div>
+            <div class="card">
+                <button onclick="location.href='/all-paths/'">All Paths</button>
+                <p>Discover all possible paths between selected nodes.</p>
+            </div>
+            <div class="card">
+                <button onclick="location.href='/strongly-connected/'">Strongly Connected</button>
+                <p>Identifying Clusters by detecting densely connected subnetworks.</p>
+            </div>
+            <div class="card">
+                <button onclick="location.href='/node-connections/'">Node Connections</button>
+                <p>Analyze connections and relationships between nodes.</p>
+            </div>
+            <div class="card">
+                <button onclick="location.href='/high-degree/'">High Degree Connections</button>
+                <p>Find nodes with the highest number of connections.</p>
+            </div>
+            <div class="card">
+                <button onclick="location.href='/isolated-nodes/'">Isolated Nodes</button>
+                <p>Identify nodes that have no connections.</p>
+            </div>
+            <div class="card">
+                <button onclick="location.href='/max-distance/'">Max Distance</button>
+                <p>Calculate the maximum distance between nodes.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

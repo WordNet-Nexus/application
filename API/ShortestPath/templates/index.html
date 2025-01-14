@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shortest Path Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #555;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #a94442;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .loading {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+        }
+        .svg-container {
+            border: 1px solid #ccc;
+            overflow: hidden;
+            position: relative;
+            margin-top: 20px;
+        }
+        svg {
+            cursor: grab;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Shortest Path Finder</h1>
+
+        <div id="messages"></div>
+        <form id="pathForm" method="POST">
+            <label for="start_word">Start Node:</label>
+            <input type="text" id="start_word" name="start_word" placeholder="Enter the start node" required>
+
+            <label for="end_word">End Node:</label>
+            <input type="text" id="end_word" name="end_word" placeholder="Enter the end node" required>
+
+            <button type="submit">Search Shortest Path</button>
+        </form>
+
+        <div id="loadingMessage" class="loading" style="display: none;">
+            Loading...
+        </div>
+
+        <div id="results" style="display: none;">
+            <h3>Paths from "<span id="display_start_word"></span>" to "<span id="display_end_word"></span>":</h3>
+            <p>Total Paths Found: <span id="routes_count"></span></p>
+
+            <div class="svg-container">
+                <svg width="800" height="600"></svg>
+            </div>
+
+            <button id="downloadJsonBtn" style="background-color: #4CAF50; margin-top: 10px;">Download JSON</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathForm = document.getElementById('pathForm');
+            const messagesDiv = document.getElementById('messages');
+            const resultsDiv = document.getElementById('results');
+            const loadingMessage = document.getElementById('loadingMessage');
+            const downloadJsonBtn = document.getElementById('downloadJsonBtn');
+            const displayStartWord = document.getElementById('display_start_word');
+            const displayEndWord = document.getElementById('display_end_word');
+            const routesCount = document.getElementById('routes_count');
+            let currentPaths = [];
+
+            pathForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                clearMessages();
+                clearResults();
+                showLoading();
+
+                const startWord = document.getElementById('start_word').value.trim();
+                const endWord = document.getElementById('end_word').value.trim();
+
+                if (!startWord || !endWord) {
+                    hideLoading();
+                    showMessage("Please complete all fields.", "error");
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`api/paths?start_word=${encodeURIComponent(startWord)}&end_word=${encodeURIComponent(endWord)}`);
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        if (data.paths && data.paths.length > 0) {
+                            currentPaths = data.paths;
+                            displayResults(data.paths, startWord, endWord);
+                        } else {
+                            showMessage("No paths were found with the specified parameters.", "info");
+                        }
+                    } else {
+                        showMessage(data.error || data.message, "error");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage("An error occurred while fetching the paths.", "error");
+                } finally {
+                    hideLoading();
+                }
+            });
+
+            downloadJsonBtn.addEventListener('click', async () => {
+                if (currentPaths.length === 0) {
+                    showMessage("There are no paths to download.", "info");
+                    return;
+                }
+
+                try {
+                    const response = await fetch('api/download/json', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ paths: currentPaths })
+                    });
+
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = 'path.json';
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                    } else {
+                        const data = await response.json();
+                        showMessage(data.error || "Could not download the JSON.", "error");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage("An error occurred while downloading the JSON.", "error");
+                }
+            });
+
+            function showLoading() {
+                loadingMessage.style.display = 'block';
+            }
+
+            function hideLoading() {
+                loadingMessage.style.display = 'none';
+            }
+
+            function showMessage(message, category) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `message ${category}`;
+                msgDiv.textContent = message;
+                messagesDiv.appendChild(msgDiv);
+            }
+
+            function clearMessages() {
+                messagesDiv.innerHTML = '';
+            }
+
+            function clearResults() {
+                resultsDiv.style.display = 'none';
+                displayStartWord.textContent = '';
+                displayEndWord.textContent = '';
+                routesCount.textContent = '';
+                const svg = d3.select("svg");
+                svg.selectAll("*").remove();
+            }
+
+            function displayResults(paths, startWord, endWord) {
+                resultsDiv.style.display = 'block';
+                displayStartWord.textContent = startWord;
+                displayEndWord.textContent = endWord;
+                routesCount.textContent = paths.length;
+
+                const firstPath = paths[0];
+                if (firstPath) {
+                    visualizeGraph(firstPath);
+                }
+            }
+
+            function visualizeGraph(path) {
+                const nodes = path.nodes;
+                const weights = path.relationships;
+                const data = { nodes: [], links: [] };
+
+                nodes.forEach((node, i) => {
+                    data.nodes.push({ id: node });
+                    if (i < nodes.length - 1) {
+                        data.links.push({
+                            source: nodes[i],
+                            target: nodes[i + 1],
+                            weight: weights[i]
+                        });
+                    }
+                });
+
+                const svg = d3.select("svg"),
+                      width = +svg.attr("width"),
+                      height = +svg.attr("height"),
+                      g = svg.append("g"),
+                      zoom = d3.zoom()
+                                .scaleExtent([1 / 2, 8])
+                                .on("zoom", ({ transform }) => g.attr("transform", transform));
+
+                svg.call(zoom);
+
+                const link = g.append("g")
+                              .selectAll("line")
+                              .data(data.links)
+                              .enter().append("line")
+                              .attr("stroke", "#999")
+                              .attr("stroke-width", 2);
+
+                const linkText = g.append("g")
+                                  .selectAll("text")
+                                  .data(data.links)
+                                  .enter().append("text")
+                                  .text(d => d.weight)
+                                  .attr("font-size", "16px")
+                                  .attr("fill", "black");
+
+                const node = g.append("g")
+                              .selectAll("circle")
+                              .data(data.nodes)
+                              .enter().append("circle")
+                              .attr("r", 8)
+                              .attr("fill", "blue");
+
+                const text = g.append("g")
+                              .selectAll("text")
+                              .data(data.nodes)
+                              .enter().append("text")
+                              .text(d => d.id)
+                              .attr("font-size", "16px")
+                              .attr("dx", 12)
+                              .attr("dy", 4);
+
+                const simulation = d3.forceSimulation(data.nodes)
+                                     .force("link", d3.forceLink(data.links).distance(150).id(d => d.id))
+                                     .force("charge", d3.forceManyBody().strength(-300))
+                                     .force("center", d3.forceCenter(width / 2, height / 2));
+
+                simulation.on("tick", () => {
+                    link.attr("x1", d => d.source.x)
+                        .attr("y1", d => d.source.y)
+                        .attr("x2", d => d.target.x)
+                        .attr("y2", d => d.target.y);
+
+                    linkText.attr("x", d => (d.source.x + d.target.x) / 2)
+                            .attr("y", d => (d.source.y + d.target.y) / 2);
+
+                    node.attr("cx", d => d.x)
+                        .attr("cy", d => d.y);
+
+                    text.attr("x", d => d.x)
+                        .attr("y", d => d.y);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
