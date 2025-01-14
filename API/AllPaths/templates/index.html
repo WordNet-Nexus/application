@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Route Finder in Neo4j</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+        .container {
+            background-color: white;
+            padding: 20px 40px 40px 40px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            color: #555555;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        button, .download-button, .visualize-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            flex: 1;
+        }
+        button:hover, .download-button:hover, .visualize-button:hover {
+            background-color: #45a049;
+        }
+        .download-button {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #a94442;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+        .paths {
+            margin-top: 30px;
+        }
+        .path {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .path h3 {
+            margin: 0 0 10px 0;
+            color: #333333;
+        }
+        .path p {
+            margin: 5px 0;
+            color: #555555;
+        }
+        .loading {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #555;
+            display: none;
+        }
+    </style>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Route Finder Between Words</h1>
+
+        <div id="messages"></div>
+        
+        <form id="pathForm">
+            <label for="start_word">Start Node:</label>
+            <input type="text" id="start_word" name="start_word" placeholder="Enter the start node" required>
+            
+            <label for="end_word">End Node:</label>
+            <input type="text" id="end_word" name="end_word" placeholder="Enter the end node" required>
+            
+            <div class="buttons">
+                <button type="submit">Search Paths</button>
+                <a href="#" id="visualizeLink" class="visualize-button" style="display: none;">Display Paths</a>
+            </div>
+        </form>
+
+        <div id="loadingMessage" class="loading">Loading...</div>
+
+        <div id="pathsContainer" class="paths" style="display: none;">
+            <h2>Paths Found Between "<span id="display_start_word"></span>" and "<span id="display_end_word"></span>"</h2>
+            <div id="pathsList"></div>
+            <button id="downloadJsonBtn" class="download-button">Download Results as JSON</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const pathForm = document.getElementById('pathForm');
+            const messagesDiv = document.getElementById('messages');
+            const pathsContainer = document.getElementById('pathsContainer');
+            const pathsList = document.getElementById('pathsList');
+            const downloadJsonBtn = document.getElementById('downloadJsonBtn');
+            const visualizeLink = document.getElementById('visualizeLink');
+            const displayStartWord = document.getElementById('display_start_word');
+            const displayEndWord = document.getElementById('display_end_word');
+            const loadingMessage = document.getElementById('loadingMessage');
+            let currentStartWord = '';
+            let currentEndWord = '';
+            let currentPaths = [];
+
+            pathForm.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                clearMessages();
+                clearPaths();
+                showLoading();
+
+                const startWord = document.getElementById('start_word').value.trim();
+                const endWord = document.getElementById('end_word').value.trim();
+
+                if (!startWord || !endWord) {
+                    hideLoading();
+                    showMessage("Please complete all fields.", "error");
+                    return;
+                }
+
+                currentStartWord = startWord.toLowerCase();
+                currentEndWord = endWord.toLowerCase();
+
+                try {
+                    const response = await fetch(`api/paths?start_word=${encodeURIComponent(currentStartWord)}&end_word=${encodeURIComponent(currentEndWord)}`);
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        if (data.paths && data.paths.length > 0) {
+                            currentPaths = data.paths;
+                            displayPaths(data.paths);
+                            displayStartWord.textContent = currentStartWord;
+                            displayEndWord.textContent = currentEndWord;
+                            pathsContainer.style.display = 'block';
+                            visualizeLink.href = `display?start_word=${encodeURIComponent(currentStartWord)}&end_word=${encodeURIComponent(currentEndWord)}`;
+                            visualizeLink.style.display = 'inline-block';
+                        } else {
+                            showMessage("No paths were found with the specified parameters.", "info");
+                        }
+                    } else {
+                        showMessage(data.error || data.message, "error");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage("An error occurred while fetching the paths.", "error");
+                } finally {
+                    hideLoading();
+                }
+            });
+
+            downloadJsonBtn.addEventListener('click', async () => {
+                if (currentPaths.length === 0) {
+                    showMessage("There are no paths to download.", "info");
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`api/download?start_word=${encodeURIComponent(currentStartWord)}&end_word=${encodeURIComponent(currentEndWord)}`);
+
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `paths_${currentStartWord}_to_${currentEndWord}.json`;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                    } else {
+                        const data = await response.json();
+                        showMessage(data.error || "Could not download the JSON.", "error");
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showMessage("An error occurred while downloading the JSON.", "error");
+                }
+            });
+
+            function showMessage(message, category) {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `message ${category}`;
+                msgDiv.textContent = message;
+                messagesDiv.appendChild(msgDiv);
+            }
+
+            function clearMessages() {
+                messagesDiv.innerHTML = '';
+            }
+
+            function clearPaths() {
+                pathsContainer.style.display = 'none';
+                pathsList.innerHTML = '';
+                currentPaths = [];
+                visualizeLink.href = '#';
+                visualizeLink.style.display = 'none';
+            }
+
+            function displayPaths(paths) {
+                pathsList.innerHTML = '';
+
+                paths.forEach((path, index) => {
+                    const pathDiv = document.createElement('div');
+                    pathDiv.className = 'path';
+
+                    const pathHeader = document.createElement('h3');
+                    pathHeader.textContent = `Path ${index + 1}:`;
+                    pathDiv.appendChild(pathHeader);
+
+                    const nodesP = document.createElement('p');
+                    nodesP.innerHTML = `<strong>Nodes:</strong> ${path.nodes.join(' → ')}`;
+                    pathDiv.appendChild(nodesP);
+
+                    pathsList.appendChild(pathDiv);
+                });
+            }
+
+            function showLoading() {
+                loadingMessage.style.display = 'block';
+            }
+
+            function hideLoading() {
+                loadingMessage.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
