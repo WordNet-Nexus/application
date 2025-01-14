@@ -1,5 +1,5 @@
 import boto3
-from settings import NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD
+from HighDegreeConnections.webpage.settings import NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD
 from neo4j import GraphDatabase
 import json
 import os

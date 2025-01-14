@@ -1,7 +1,7 @@
 from flask import Flask, render_template
-from api import api_bp
+from .api import api_bp
 import atexit
-from query_handler import QueryHandler
+from .query_handler import QueryHandler
 
 app = Flask(__name__)
 query_handler = QueryHandler()

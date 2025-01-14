@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template
 import os
-from query_handler import QueryHandler
+from IsolatedNodes.webpage.query_handler import QueryHandler
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)

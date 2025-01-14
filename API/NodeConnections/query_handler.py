@@ -1,4 +1,4 @@
-from settings import NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD
+from NodeConnections.settings import NEO4J_URI, NEO4J_USER, NEO4J_PASSWORD
 from neo4j import GraphDatabase
 from neo4j.exceptions import ServiceUnavailable
 

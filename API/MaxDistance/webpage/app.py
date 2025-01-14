@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from query_handler import QueryHandler
+from MaxDistance.webpage.query_handler import QueryHandler
 
 app = Flask(__name__)
 query_handler = QueryHandler()

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
-from query_handler import QueryHandler
-from api import api_bp
+from StronglyConnected.query_handler import QueryHandler
+from .api import api_bp
 import os
 import atexit
 

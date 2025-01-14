@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for
-from query_handler import QueryHandler
+from HighDegreeConnections.webpage.query_handler import QueryHandler
 import os
 
 app = Flask(__name__)

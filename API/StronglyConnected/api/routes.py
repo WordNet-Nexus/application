@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from query_handler import QueryHandler
+from ..query_handler import QueryHandler
 from . import api_bp
 
 query_handler = QueryHandler()

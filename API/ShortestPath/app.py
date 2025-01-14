@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, make_response
 import json
 import os
-from query_handler import QueryHandler
+from ShortestPath.query_handler import QueryHandler
 from api import api_bp
 
 app = Flask(__name__)
