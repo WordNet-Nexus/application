@@ -1,0 +1,12 @@
+org\crawler\downloadHandlers\DownloadHandler.class
+org\crawler\writer\DirectoryWriter.class
+org\crawler\writer\Writer.class
+org\crawler\downloadHandlers\GutenbergDownloadHandler.class
+org\crawler\Main.class
+org\crawler\model\Book.class
+org\crawler\controller\BookController.class
+org\crawler\Controller.class
+org\crawler\model\NumbersInRange.class
+org\crawler\metadataHandler\GetMetadata.class
+org\crawler\metadataHandler\GutenbergMetadata.class
+org\crawler\writer\AWSWriter.class
