@@ -1,0 +1,12 @@
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\Controller.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\controller\BookController.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\downloadHandlers\DownloadHandler.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\downloadHandlers\GutenbergDownloadHandler.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\Main.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\metadataHandler\GetMetadata.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\metadataHandler\GutenbergMetadata.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\model\Book.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\model\NumbersInRange.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\writer\AWSWriter.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\writer\DirectoryWriter.java
+C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\aplication\Crawler\src\main\java\org\crawler\writer\Writer.java
