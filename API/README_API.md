@@ -1,5 +1,7 @@
 # API - README
 
+<div align="justify">
+
 ### Overview
 
 This document consolidates the testing strategies, CI/CD pipelines, and coverage reports for the various submodules of the API module in the application. Each section provides an overview of the respective module, its test cases, and execution results.

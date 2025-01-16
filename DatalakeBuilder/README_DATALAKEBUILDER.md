@@ -1,5 +1,7 @@
 # DatalakeBuilder - README
 
+<div align="justify">
+
 ## Module Description
 DatalakeBuilder is a key component for processing and managing data. It includes tools for cleaning text, downloading books, and uploading data to a MongoDB database.
 

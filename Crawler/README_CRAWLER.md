@@ -1,5 +1,7 @@
 # Crawler - README
 
+<div align="justify">
+
 ## Module Description
 Crawler is a Java-based component designed to fetch, process, and upload book data. It is an essential part of the system for interacting with external sources, extracting metadata, and storing the results in a cloud service.
 
