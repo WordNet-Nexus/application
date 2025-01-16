@@ -1,2 +1,5 @@
 Flask
 boto3
+parameterized
+einops
+lion-pytorch

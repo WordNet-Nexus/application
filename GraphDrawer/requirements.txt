@@ -2,3 +2,6 @@ hazelcast-python-client
 pymongo
 neo4j
 boto3
+parameterized
+einops
+lion-pytorch

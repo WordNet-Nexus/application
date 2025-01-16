@@ -1,2 +1,5 @@
 Flask
 neo4j
+parameterized
+einops
+lion-pytorch
