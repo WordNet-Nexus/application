@@ -29,6 +29,7 @@ jobs:
         cd API/AllPaths
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install coverage
 
     # 4. Exportar variables de entorno
     - name: Set environment variables
@@ -37,8 +38,9 @@ jobs:
         echo "NEO4J_USER=neo4j" >> $GITHUB_ENV
         echo "NEO4J_PASSWORD=password" >> $GITHUB_ENV
 
-    # 5. Ejecutar los tests desde el directorio de API
-    - name: Run AllPaths tests
+    # 5. Ejecutar los tests con cobertura desde el directorio de API
+    - name: Run AllPaths tests with coverage
       run: |
         cd API
-        python -m unittest tests/test_allpaths.py
+        coverage run -m unittest tests/test_allpaths.py
+        coverage report

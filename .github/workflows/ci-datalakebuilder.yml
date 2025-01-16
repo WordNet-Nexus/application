@@ -28,14 +28,16 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r DatalakeBuilder/requirements.txt
+        pip install coverage
 
     # Descargar todos los datos de NLTK
     - name: Download NLTK data
       run: |
         python -m nltk.downloader all
 
-    # Configurar PYTHONPATH y ejecutar los tests
-    - name: Run tests
+    # Configurar PYTHONPATH, ejecutar los tests y generar el reporte
+    - name: Run tests with coverage
       run: |
         export PYTHONPATH=$GITHUB_WORKSPACE
-        python -m unittest discover -s DatalakeBuilder/tests
+        coverage run -m unittest discover -s DatalakeBuilder/tests
+        coverage report

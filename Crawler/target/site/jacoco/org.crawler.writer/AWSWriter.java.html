@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AWSWriter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Crawler</a> &gt; <a href="index.source.html" class="el_package">org.crawler.writer</a> &gt; <span class="el_source">AWSWriter.java</span></div><h1>AWSWriter.java</h1><pre class="source lang-java linenums">package org.crawler.writer;
+
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class AWSWriter implements Writer{
+
+    private final AmazonS3 s3Client;
+    private final String bucketName;
+
+<span class="nc" id="L16">    public AWSWriter(String bucketName){</span>
+<span class="nc" id="L17">        this.bucketName = bucketName;</span>
+<span class="nc" id="L18">        this.s3Client = AmazonS3ClientBuilder.standard().build();</span>
+<span class="nc" id="L19">        createBucket();</span>
+<span class="nc" id="L20">    }</span>
+    @Override
+    public void write(String fileName, String content) throws IOException {
+        try {
+<span class="nc" id="L24">            InputStream inputStream = new ByteArrayInputStream(content.getBytes());</span>
+<span class="nc" id="L25">            ObjectMetadata metadata = new ObjectMetadata();</span>
+<span class="nc" id="L26">            metadata.setContentLength(content.length());</span>
+
+<span class="nc" id="L28">            s3Client.putObject(bucketName, fileName, inputStream, metadata);</span>
+<span class="nc" id="L29">        } catch (Exception e) {</span>
+<span class="nc" id="L30">            throw new IOException(&quot;Error uploading the book to the S3: &quot; + e.getMessage(), e);</span>
+<span class="nc" id="L31">        }</span>
+<span class="nc" id="L32">    }</span>
+    private void createBucket() {
+        try {
+<span class="nc" id="L35">            s3Client.createBucket(bucketName);</span>
+<span class="nc" id="L36">        } catch (Exception e) {</span>
+<span class="nc" id="L37">            System.err.println(&quot;Error creating the bucket: &quot; + e.getMessage());</span>
+<span class="nc" id="L38">        }</span>
+<span class="nc" id="L39">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

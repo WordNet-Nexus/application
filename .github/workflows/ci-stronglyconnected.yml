@@ -12,6 +12,14 @@ jobs:
   test:
     runs-on: ubuntu-22.04
 
+    services:
+      neo4j:
+        image: neo4j:5.5
+        ports:
+          - 7687:7687
+        options: >-
+          --env=NEO4J_AUTH=none
+
     steps:
       # 1. Checkout del repositorio
       - name: Checkout code
@@ -37,8 +45,9 @@ jobs:
           echo "NEO4J_USER=neo4j" >> $GITHUB_ENV
           echo "NEO4J_PASSWORD=password" >> $GITHUB_ENV
 
-      # 5. Ejecutar los tests desde el directorio de API
-      - name: Run StronglyConnected tests
+      # 5. Ejecutar los tests con cobertura desde el directorio API
+      - name: Run StronglyConnected tests with coverage
         run: |
           cd API
-          python -m unittest tests/test_stronglyconnected.py
+          coverage run -m unittest tests/test_stronglyconnected.py
+          coverage report

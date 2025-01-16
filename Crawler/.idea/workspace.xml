@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8fd79754-4735-4388-9feb-8af0a7fcd491" name="Changes" comment="v 1.0.0" />
+    <list default="true" id="8fd79754-4735-4388-9feb-8af0a7fcd491" name="Changes" comment="v 1.0.0">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -45,7 +48,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/datalakeBuilder",
+    "git-widget-placeholder": "develop",
     "last_opened_file_path": "C:/Users/marap/Documents/Github/application/Crawler",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -61,7 +64,7 @@
       <recent name="C:\Users\Susana\Desktop\Universidad\Cuarto\TSCD\Crawler\src\main\java\org\crawler" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.CrawlerTests">
+  <component name="RunManager" selected="Maven.Crawler [verify]">
     <configuration name="BookController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.crawler.controller.BookController" />
       <module name="Crawler" />
@@ -104,13 +107,44 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Crawler [verify]" type="MavenRunConfiguration" factoryName="Maven" temporary="true">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="verify" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.BookController" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.CrawlerTests" />
+      <item itemvalue="Maven.Crawler [verify]" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Maven.Crawler [verify]" />
         <item itemvalue="JUnit.CrawlerTests" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.BookController" />
@@ -135,6 +169,8 @@
       <workItem from="1735204842039" duration="388000" />
       <workItem from="1736880161042" duration="155000" />
       <workItem from="1736880332430" duration="725000" />
+      <workItem from="1737002243337" duration="17000" />
+      <workItem from="1737011510167" duration="1005000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1728488854769</created>
