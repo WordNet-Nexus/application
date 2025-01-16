@@ -67,3 +67,4 @@ jobs:
 
     - name: Apply Quality Gates
       run: python Locust/stress_tests/check_quality_gates.py
+
