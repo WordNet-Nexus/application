@@ -60,7 +60,7 @@ jobs:
 
     - name: Run Locust Tests - TopConnections
       run: |
-        locust -f Locust/load_tests/locustfile_TopCon.py --host=http://${{ secrets.TARGET_IP }}/high-degree/ \
+        locust -f Locust/load_tests/locustfile_TopCon.py --host=http://${{ secrets.TARGET_IP }}/high-degree \
         --run-time 1m --headless -u 50 -r 10 --csv=Locust/load_tests/Top/results
       continue-on-error: true
 
