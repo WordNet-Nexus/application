@@ -15,13 +15,17 @@ class MongoDBUploader:
         self.collection_name = self.database_name
         self.db = self.client[self.database_name]
         self.collection = self.db[self.collection_name]
-
+    
     def upload_data(self, data):
         try:
-            documents = [{"word": word, "count": count} for word, count in data.items()]
-            self.collection.insert_many(documents)
+            for word, count in data.items():
+                self.collection.update_one(
+                    {"word": word},
+                    {"$set": {"word": word, "count": count}},
+                    upsert=True
+                )
         except PyMongoError as e:
-            print(f"Error al subir datos a MongoDB: {e}")
+            print(f"Error: {e}")
 
     def create_collection(self):
         try:
