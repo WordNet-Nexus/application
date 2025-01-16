@@ -62,7 +62,7 @@ sudo docker run -d --rm \
   -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
   -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   -e AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN \
-  susanasrez/wordnetnexus-docker:crawler-app wordnetnexus-gutenberg-ulpgc 1 200
+  susanasrez/wordnetnexus-docker:crawler-app wordnetnexus-gutenberg-ulpgc-1 1 200
 EOF
 
 # Instance
