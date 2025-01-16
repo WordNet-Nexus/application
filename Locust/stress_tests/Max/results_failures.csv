@@ -1,0 +1,3 @@
+Method,Name,Error,Occurrences
+GET,/max-distance/,"TimeoutError(10060, '[WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.')",201
+POST,/max-distance/search,"TimeoutError(10060, '[WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.')",799

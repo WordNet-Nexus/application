@@ -1,0 +1,12 @@
+Method,Name,Error,Occurrences
+GET,/all-paths/display,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",167
+GET,/all-paths/display?start_word=blighted&end_word=slighted,HTTPError('502 Server Error: Bad Gateway for url: /all-paths/display?start_word=blighted&end_word=slighted'),97
+POST,/all-paths/,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",9
+POST,/all-paths/,RemoteDisconnected('Remote end closed connection without response'),256
+GET,/all-paths/api/paths?start_word=blighted&end_word=slighted,HTTPError('502 Server Error: Bad Gateway for url: /all-paths/api/paths?start_word=blighted&end_word=slighted'),40
+GET,/all-paths/api/paths,RemoteDisconnected('Remote end closed connection without response'),144
+GET,/all-paths/api/paths,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",59
+GET,/all-paths/,HTTPError('502 Server Error: Bad Gateway for url: /all-paths/'),35
+GET,/all-paths/,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",69
+GET,/all-paths/,RemoteDisconnected('Remote end closed connection without response'),133
+GET,/all-paths/display,RemoteDisconnected('Remote end closed connection without response'),288
