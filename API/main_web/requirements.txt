@@ -1,2 +1,5 @@
 flask
 pytest
+parameterized
+einops
+lion-pytorch
