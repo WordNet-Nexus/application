@@ -13,24 +13,20 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    # 1. Checkout del repositorio
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Configurar Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: 3.11
 
-    # 3. Instalar dependencias
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install coverage
         pip install -r API/main_web/requirements.txt
 
-    # 4. Ejecutar las pruebas con cobertura
     - name: Run tests with coverage
       run: |
         cd API

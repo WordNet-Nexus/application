@@ -13,29 +13,24 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    # Configuración básica
     - name: Check out code
       uses: actions/checkout@v3
 
-    # Configurar Python
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.11'
 
-    # Instalar dependencias
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r DatalakeBuilder/requirements.txt
         pip install coverage
 
-    # Descargar todos los datos de NLTK
     - name: Download NLTK data
       run: |
         python -m nltk.downloader all
 
-    # Configurar PYTHONPATH, ejecutar los tests y generar el reporte
     - name: Run tests with coverage
       run: |
         export PYTHONPATH=$GITHUB_WORKSPACE

@@ -13,18 +13,15 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    # 1. Checkout del repositorio
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # 2. Configurar Java
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin' # Usar Temurin para JDK
-        java-version: '17'      # Versión de Java utilizada en tu proyecto
+        distribution: 'temurin'
+        java-version: '17'
 
-    # 3. Configurar caché de Maven
     - name: Cache Maven packages
       uses: actions/cache@v3
       with:
@@ -33,7 +30,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
 
-    # 4. Construir y probar el proyecto con Maven
+
     - name: Build and Test with Maven
       run: |
         cd Crawler
