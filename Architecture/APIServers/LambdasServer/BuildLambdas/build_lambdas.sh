@@ -4,7 +4,7 @@
 # Variables
 VPC_ID=$1
 SUBNET_IDS=$2
-ROLE_ARN="arn:aws:iam::118538640521:role/LabRole"
+ROLE_ARN="arn:aws:iam::966468913154:role/LabRole"
 HANDLER="lambda_function.lambda_handler"
 PYTHON_RUNTIME="python3.9"
 SECURITY_GROUP_NAME="LambdaNeo4jSG"
