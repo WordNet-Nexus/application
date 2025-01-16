@@ -1,8 +1,8 @@
-from src.clean.cleaner import TextCleaner
-from src.hazelcast_client import HazelcastClientManager
-from src.uploader.uploaders import Uploaders
+from DatalakeBuilder.src.clean.cleaner import TextCleaner
+from DatalakeBuilder.src.hazelcast_client import HazelcastClientManager
+from DatalakeBuilder.src.uploader.uploaders import Uploaders
 from config.settings import TEMP_FOLDER, TABLE_NAME, BUCKET_NAME, MONGO_HOST, MONGO_PORT, START_ID, END_ID
-from src.bookFetcher.book_fetcher import BookFetcher
+from DatalakeBuilder.src.bookFetcher.book_fetcher import BookFetcher
 
 class Controller:
 

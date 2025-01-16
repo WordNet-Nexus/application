@@ -1,4 +1,4 @@
-from src.bookFetcher.downloader import Downloader
+from DatalakeBuilder.src.bookFetcher.downloader import Downloader
 import boto3
 import os
 
