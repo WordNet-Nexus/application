@@ -42,13 +42,13 @@ def evaluate_quality_gates(test_name, csv_file):
     print(f"✅ {test_name}: Quality gates passed!")
 
 tests = {
-    "AllPaths": "Architecture/Locust/stress_tests/AllPaths/results_stats.csv",
-    "ShortestPath": "Architecture/Locust/stress_tests/Shortest/results_stats.csv",
-    "IsolatedNodes": "Architecture/Locust/stress_tests/Isolated/results_stats.csv",
-    "MaxDistance": "Architecture/Locust/stress_tests/Max/results_stats.csv",
-    "NodeConnections": "Architecture/Locust/stress_tests/NodeCon/results_stats.csv",
-    "StronglyConnected": "Architecture/Locust/stress_tests/Strongly/results_stats.csv",
-    "TopConnections": "Architecture/Locust/stress_tests/Top/results_stats.csv"
+    "AllPaths": "Locust/stress_tests/AllPaths/results_stats.csv",
+    "ShortestPath": "Locust/stress_tests/Shortest/results_stats.csv",
+    "IsolatedNodes": "Locust/stress_tests/Isolated/results_stats.csv",
+    "MaxDistance": "Locust/stress_tests/Max/results_stats.csv",
+    "NodeConnections": "Locust/stress_tests/NodeCon/results_stats.csv",
+    "StronglyConnected": "Locust/stress_tests/Strongly/results_stats.csv",
+    "TopConnections": "Locust/stress_tests/Top/results_stats.csv"
 }
 
 for test_name, csv_file in tests.items():
