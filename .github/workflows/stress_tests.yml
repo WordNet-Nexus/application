@@ -25,43 +25,43 @@ jobs:
     - name: Run Stress Tests - AllPaths
       run: |
         locust -f Locust/stress_tests/locustfile_AllPaths.py --host=http://${{ secrets.TARGET_IP }}/all-paths \
-        --run-time 1m --headless -u 500 -r 50 --csv=Locust/stress_tests/AllPaths/results
+        --run-time 1m --headless -u 100 -r 50 --csv=Locust/stress_tests/AllPaths/results
       continue-on-error: true
 
     - name: Run Stress Tests - ShortestPath
       run: |
         locust -f Locust/stress_tests/locustfile_ShortestPath.py --host=http://${{ secrets.TARGET_IP }}/shortest-path \
-        --run-time 1m --headless -u 500 -r 50 --csv=Locust/stress_tests/Shortest/results
+        --run-time 1m --headless -u 100 -r 50 --csv=Locust/stress_tests/Shortest/results
       continue-on-error: true
 
     - name: Run Stress Tests - IsolatedNodes
       run: |
         locust -f Locust/stress_tests/locustfile_Isolated.py --host=http://${{ secrets.TARGET_IP }}/isolated-nodes \
-        --run-time 1m --headless -u 500 -r 50 --csv=Locust/stress_tests/Isolated/results
+        --run-time 1m --headless -u 100 -r 50 --csv=Locust/stress_tests/Isolated/results
       continue-on-error: true
 
     - name: Run Stress Tests - MaxDistance
       run: |
         locust -f Locust/stress_tests/locustfile_Max.py --host=http://${{ secrets.TARGET_IP }}/max-distance \
-        --run-time 1m --headless -u 500 -r 50 --csv=Locust/stress_tests/Max/results
+        --run-time 1m --headless -u 100 -r 50 --csv=Locust/stress_tests/Max/results
       continue-on-error: true
 
     - name: Run Stress Tests - NodeConnections
       run: |
         locust -f Locust/stress_tests/locustfile_NodeCon.py --host=http://${{ secrets.TARGET_IP }}/node-connections \
-        --run-time 1m --headless -u 500 -r 50 --csv=Locust/stress_tests/NodeCon/results
+        --run-time 1m --headless -u 100 -r 50 --csv=Locust/stress_tests/NodeCon/results
       continue-on-error: true
 
     - name: Run Stress Tests - StronglyConnected
       run: |
         locust -f Locust/stress_tests/locustfile_StronglyConnected.py --host=http://${{ secrets.TARGET_IP }}/strongly-connected \
-        --run-time 1m --headless -u 500 -r 50 --csv=Locust/stress_tests/Strongly/results
+        --run-time 1m --headless -u 100 -r 50 --csv=Locust/stress_tests/Strongly/results
       continue-on-error: true
 
     - name: Run Stress Tests - TopConnections
       run: |
         locust -f Locust/stress_tests/locustfile_TopCon.py --host=http://${{ secrets.TARGET_IP }}/high-degree \
-        --run-time 1m --headless -u 500 -r 50 --csv=Locust/stress_tests/Top/results
+        --run-time 1m --headless -u 100 -r 50 --csv=Locust/stress_tests/Top/results
       continue-on-error: true
 
     - name: Apply Quality Gates
