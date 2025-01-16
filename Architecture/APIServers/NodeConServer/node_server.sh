@@ -18,7 +18,7 @@ if [ -z "$VPC_ID" ] || [ -z "$PRIVATE_SUBNET_ID" ]; then
 fi
 
 # user-data
-cat <<EOF > user-data.sh
+cat <<EOF > Architecture/user-data.sh
 #!/bin/bash
 sudo yum install -y docker
 sudo systemctl start docker
@@ -57,7 +57,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --subnet-id $PRIVATE_SUBNET_ID \
     --private-ip-address $PRIVATE_IP \
     --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":'$EBS_VOLUME_SIZE'}}]' \
-    --user-data file://user-data.sh \
+    --user-data file://Architecture/user-data.sh \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=node-con-server}]' \
     --query 'Instances[0].InstanceId' --output text)
 
@@ -68,7 +68,7 @@ fi
 
 aws ec2 wait instance-running --instance-ids $INSTANCE_ID
 aws ec2 wait instance-status-ok --instance-ids $INSTANCE_ID
-rm -f user-data.sh
+rm -f Architecture/user-data.sh
 
 #Summary
 echo "  Instance ID - Node-Server: $INSTANCE_ID"

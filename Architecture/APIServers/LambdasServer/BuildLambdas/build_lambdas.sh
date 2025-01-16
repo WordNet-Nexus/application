@@ -47,7 +47,7 @@ aws lambda create-function \
     --runtime "$PYTHON_RUNTIME" \
     --role "$ROLE_ARN" \
     --handler "$HANDLER" \
-    --zip-file fileb://APIServers/LambdasServer/BuildLambdas/$ZIP_FILE \
+    --zip-file fileb://Architecture/APIServers/LambdasServer/BuildLambdas/$ZIP_FILE \
     --vpc-config SubnetIds=$SUBNET_IDS,SecurityGroupIds=$SECURITY_GROUP_ID \
     --environment "Variables={NEO4J_URI=bolt://10.0.2.21:7687,NEO4J_PASSWORD=neo4j,NEO4J_USER=neo4j}"
 
@@ -63,7 +63,7 @@ aws lambda create-function \
     --runtime "$PYTHON_RUNTIME" \
     --role "$ROLE_ARN" \
     --handler "$HANDLER" \
-    --zip-file fileb://APIServers/LambdasServer/BuildLambdas/$ZIP_FILE \
+    --zip-file fileb://Architecture/APIServers/LambdasServer/BuildLambdas/$ZIP_FILE \
     --vpc-config SubnetIds=$SUBNET_IDS,SecurityGroupIds=$SECURITY_GROUP_ID \
     --environment "Variables={NEO4J_URI=bolt://10.0.2.21:7687,NEO4J_PASSWORD=neo4j,NEO4J_USER=neo4j}"
 
@@ -80,7 +80,7 @@ aws lambda create-function \
     --runtime "$PYTHON_RUNTIME" \
     --role "$ROLE_ARN" \
     --handler "$HANDLER" \
-    --zip-file fileb://APIServers/LambdasServer/BuildLambdas/$ZIP_FILE \
+    --zip-file fileb://Architecture/APIServers/LambdasServer/BuildLambdas/$ZIP_FILE \
     --vpc-config SubnetIds=$SUBNET_IDS,SecurityGroupIds=$SECURITY_GROUP_ID \
     --environment "Variables={NEO4J_URI=bolt://10.0.2.21:7687,NEO4J_PASSWORD=neo4j,NEO4J_USER=neo4j}"
 

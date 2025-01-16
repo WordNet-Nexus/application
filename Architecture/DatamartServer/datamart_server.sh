@@ -43,7 +43,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --subnet-id $PRIVATE_SUBNET_ID \
     --private-ip-address $PRIVATE_IP \
     --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":'$EBS_VOLUME_SIZE'}}]' \
-    --user-data file://DatamartServer/user-data.sh \
+    --user-data file://Architecture/DatamartServer/user-data.sh \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=datamart-server}]' \
     --query 'Instances[0].InstanceId' --output text)
 

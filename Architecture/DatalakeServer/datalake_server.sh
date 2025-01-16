@@ -41,7 +41,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --security-group-ids $SECURITY_GROUP_ID \
     --subnet-id $PRIVATE_SUBNET_ID \
     --private-ip-address $PRIVATE_IP \
-    --user-data file://DatalakeServer/user-data.sh \
+    --user-data file://Architecture/DatalakeServer/user-data.sh \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=datalake-server}]' \
     --query 'Instances[0].InstanceId' --output text)
 aws ec2 wait instance-running --instance-ids $INSTANCE_ID

@@ -52,7 +52,7 @@ else
 fi
 
 # user-data
-cat <<EOF > user-data.sh
+cat <<EOF > Architecture/user-data.sh
 #!/bin/bash
 sudo yum install -y docker
 sudo systemctl start docker
@@ -75,13 +75,13 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --subnet-id $PUBLIC_SUBNET_ID \
     --associate-public-ip-address \
     --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":'$EBS_VOLUME_SIZE'}}]' \
-    --user-data file://user-data.sh \
+    --user-data file://Architecture/user-data.sh \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=crawler-server}]' \
     --query 'Instances[0].InstanceId' --output text)
 aws ec2 wait instance-running --instance-ids $INSTANCE_ID
 aws ec2 wait instance-status-ok --instance-ids $INSTANCE_ID
 
-rm -f user-data.sh
+rm -f Architecture/user-data.sh
 
 PUBLIC_IP=$(aws ec2 describe-instances \
     --instance-ids $INSTANCE_ID \

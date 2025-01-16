@@ -28,7 +28,7 @@ NGINX_SG_ID=$(aws ec2 describe-security-groups \
     --output text)
 
 # user-data
-cat <<EOC > user-data.sh
+cat <<EOC > Architecture/user-data.sh
 #!/bin/bash
 sudo yum install -y docker
 sudo systemctl start docker
@@ -227,7 +227,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --key-name $KEY_PAIR_NAME \
     --security-group-ids $NGINX_SG_ID \
     --subnet-id $PUBLIC_SUBNET_ID \
-    --user-data file://user-data.sh \
+    --user-data file://Architecture/user-data.sh \
     --block-device-mappings "[{\"DeviceName\":\"/dev/xvda\",\"Ebs\":{\"VolumeSize\":$EBS_VOLUME_SIZE}}]" \
     --query 'Instances[0].InstanceId' \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=nginx-server}]' \
@@ -236,7 +236,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
 echo "Waiting for the instance to be running..."
 aws ec2 wait instance-running --instance-ids $INSTANCE_ID
 aws ec2 wait instance-status-ok --instance-ids $INSTANCE_ID
-rm -f user-data.sh
+rm -f Architecture/user-data.sh
 
 # Associate Elastic IP
 aws ec2 associate-address \

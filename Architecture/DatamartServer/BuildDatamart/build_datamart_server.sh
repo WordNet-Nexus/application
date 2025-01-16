@@ -32,7 +32,7 @@ fi
 aws ec2 authorize-security-group-ingress --group-id $SECURITY_GROUP_ID --protocol tcp --port 22 --cidr 0.0.0.0/0 || echo "Rule for port 22 already exists."
 
 # user-data
-cat <<EOF > user-data-build.sh
+cat <<EOF > Architecture/user-data-build.sh
 #!/bin/bash
 yum install -y docker
 systemctl start docker
@@ -70,13 +70,13 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --subnet-id $PRIVATE_SUBNET_ID \
     --private-ip-address $PRIVATE_IP \
     --block-device-mappings '[{"DeviceName":"/dev/xvda","Ebs":{"VolumeSize":'$EBS_VOLUME_SIZE'}}]' \
-    --user-data file://user-data-build.sh \
+    --user-data file://Architecture/user-data-build.sh \
     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=build-datamart-server}]' \
     --query 'Instances[0].InstanceId' --output text)
 
 aws ec2 wait instance-running --instance-ids $INSTANCE_ID
 aws ec2 wait instance-status-ok --instance-ids $INSTANCE_ID
-rm -f user-data-build.sh
+rm -f Architecture/user-data-build.sh
 
 # Retrieve private IP
 PRIVATE_IP=$(aws ec2 describe-instances \
