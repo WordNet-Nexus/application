@@ -1,4 +1,4 @@
-name: Test Continuous Integration: Architecture Scripts
+name: Test Continuous Integration - Architecture Scripts
 
 on:
   push:
