@@ -37,16 +37,20 @@ class TestMongoDBUploader(unittest.TestCase):
 
     @patch("DatalakeBuilder.src.uploader.mongodb_uploader.MongoClient")
     def test_upload_data(self, mock_mongo_client):
+        mock_db = MagicMock()
         mock_collection = MagicMock()
-        mock_mongo_client.return_value.__getitem__.return_value = {"test_collection": mock_collection}
-
+        mock_mongo_client.return_value.__getitem__.return_value = mock_db
+        mock_db.__getitem__.return_value = mock_collection
         uploader = MongoDBUploader(database_name="test_db")
-        uploader.client = mock_mongo_client
-        uploader.collection = mock_collection
+        uploader.set_params(host="localhost", port=27017)
 
         sample_data = {"word1": 5, "word2": 10}
         uploader.upload_data(sample_data)
-        mock_collection.insert_many.assert_called_once()
+        expected_calls = [
+            (({"word": "word1"}, {"$set": {"word": "word1", "count": 5}}), {"upsert": True}),
+            (({"word": "word2"}, {"$set": {"word": "word2", "count": 10}}), {"upsert": True}),
+        ]
+        mock_collection.update_one.assert_has_calls(expected_calls, any_order=True)
 
     @patch("DatalakeBuilder.src.uploader.mongodb_uploader.MongoClient")
     def test_create_collection(self, mock_mongo_client):

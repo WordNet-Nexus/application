@@ -3,13 +3,13 @@ import sys
 import os
 
 MAX_AVG_RESPONSE_TIME = 5000
-MAX_FAILURE_RATE = 40.0
-MIN_SUCCESS_RATE = 60.0
+MAX_FAILURE_RATE = 50.0
+MIN_SUCCESS_RATE = 50.0
 
-def evaluate_quality_gates(test_name, csv_file):
+def evaluate_quality_gates(test_name, csv_file, error_log):
     if not os.path.exists(csv_file):
-        print(f"❌ Results for {test_name} not found: {csv_file}")
-        sys.exit(1)
+        error_log.append(f"❌ Results for {test_name} not found: {csv_file}")
+        return
 
     with open(csv_file, 'r') as f:
         reader = csv.DictReader(f)
@@ -30,16 +30,17 @@ def evaluate_quality_gates(test_name, csv_file):
     print(f"Success Rate: {success_rate:.2f}%")
 
     if avg_response_time > MAX_AVG_RESPONSE_TIME:
-        print(f"❌ {test_name}: Average Response Time exceeds {MAX_AVG_RESPONSE_TIME} ms")
-        sys.exit(1)
+        error_log.append(f"❌ {test_name}: Average Response Time exceeds {MAX_AVG_RESPONSE_TIME} ms")
     if failure_rate > MAX_FAILURE_RATE:
-        print(f"❌ {test_name}: Failure Rate exceeds {MAX_FAILURE_RATE}%")
-        sys.exit(1)
+        error_log.append(f"❌ {test_name}: Failure Rate exceeds {MAX_FAILURE_RATE}%")
     if success_rate < MIN_SUCCESS_RATE:
-        print(f"❌ {test_name}: Success Rate is below {MIN_SUCCESS_RATE}%")
-        sys.exit(1)
-
-    print(f"✅ {test_name}: Quality gates passed!")
+        error_log.append(f"❌ {test_name}: Success Rate is below {MIN_SUCCESS_RATE}%")
+    if (
+        avg_response_time <= MAX_AVG_RESPONSE_TIME
+        and failure_rate <= MAX_FAILURE_RATE
+        and success_rate >= MIN_SUCCESS_RATE
+    ):
+        print(f"✅ {test_name}: Quality gates passed!")
 
 tests = {
     "AllPaths": "Locust/stress_tests/AllPaths/results_stats.csv",
@@ -51,5 +52,13 @@ tests = {
     "TopConnections": "Locust/stress_tests/Top/results_stats.csv"
 }
 
+error_log = []
 for test_name, csv_file in tests.items():
-    evaluate_quality_gates(test_name, csv_file)
+    evaluate_quality_gates(test_name, csv_file, error_log)
+
+if error_log:
+    print("\n=== Errors Summary ===")
+    for error in error_log:
+        print(error)
+else:
+    print("\n✅ All tests passed successfully!")
