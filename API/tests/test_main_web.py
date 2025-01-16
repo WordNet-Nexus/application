@@ -1,7 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
 
-# Import the Flask app
 from main_web.app import app
 
 class TestMainWebApp(unittest.TestCase):
@@ -13,7 +12,7 @@ class TestMainWebApp(unittest.TestCase):
         """Test the index route"""
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"<html", response.data)  # Assumes index.html contains HTML content
+        self.assertIn(b"<html", response.data)
 
 if __name__ == '__main__':
     unittest.main()

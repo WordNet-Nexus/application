@@ -5,17 +5,14 @@ import json
 from MaxDistance.lambda_package.lambda_function import find_longest_path_by_steps, find_longest_path_by_weight
 from MaxDistance.webpage.query_handler import QueryHandler
 
-# Mock de variables de entorno
 os.environ["NEO4J_URI"] = "bolt://localhost:7687"
 os.environ["NEO4J_USER"] = "neo4j"
 os.environ["NEO4J_PASSWORD"] = "password"
-
 
 class TestMaxDistance(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        # Mock del cliente Lambda de AWS
         cls.mock_lambda_client = patch("boto3.client").start()
         cls.mock_lambda_client.return_value.invoke = MagicMock(
             return_value={
@@ -35,7 +32,7 @@ class TestMaxDistance(unittest.TestCase):
         patch.stopall()
 
     def test_lambda_handler_missing_params(self):
-        """Prueba para parámetros faltantes en lambda_handler."""
+        """Test for missing parameters in lambda_handler."""
         mock_event = {
             "start_word": "word1"
         }
@@ -47,7 +44,7 @@ class TestMaxDistance(unittest.TestCase):
         self.assertIn("start_word and end_word are required", body["error"])
 
     def test_lambda_handler_invalid_mode(self):
-        """Prueba para modo inválido en lambda_handler."""
+        """Test for invalid mode in lambda_handler."""
         mock_event = {
             "start_word": "word1",
             "end_word": "word2",
@@ -62,7 +59,7 @@ class TestMaxDistance(unittest.TestCase):
 
     @patch("MaxDistance.webpage.query_handler.QueryHandler.invoke_lambda")
     def test_query_handler_invoke_lambda(self, mock_invoke_lambda):
-        """Prueba válida para invoke_lambda en QueryHandler."""
+        """Valid test for invoke_lambda in QueryHandler."""
         mock_invoke_lambda.return_value = [{"nodes": ["word1", "word2"], "length": 2}]
         handler = QueryHandler()
         response = handler.invoke_lambda("word1", "word2", "steps", 10)
@@ -70,7 +67,7 @@ class TestMaxDistance(unittest.TestCase):
         self.assertEqual(response[0]["length"], 2)
 
     def test_find_longest_path_by_steps(self):
-        """Prueba para find_longest_path_by_steps."""
+        """Test for find_longest_path_by_steps."""
         mock_tx = MagicMock()
         mock_tx.run.return_value = iter([
             {
@@ -87,7 +84,7 @@ class TestMaxDistance(unittest.TestCase):
         self.assertEqual(result[0]["length"], 2)
 
     def test_find_longest_path_by_weight(self):
-        """Prueba para find_longest_path_by_weight."""
+        """Test for find_longest_path_by_weight."""
         mock_tx = MagicMock()
         mock_tx.run.return_value = iter([
             {
