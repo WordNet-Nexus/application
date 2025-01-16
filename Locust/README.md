@@ -1,6 +1,8 @@
 
 # Performance Testing with Locust
 
+<div align="justify">
+
 ## 1. What is Locust?
 
 [Locust](https://locust.io/) is an open-source load testing tool that enables the simulation of real-world user interactions with web applications. It is designed to measure system performance under both load and stress scenarios, allowing developers and engineers to identify bottlenecks, optimize performance, and ensure scalability. Locust provides an intuitive interface for writing test scripts in Python and generates insightful metrics such as request rates, response times, and error rates.
