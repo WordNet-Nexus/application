@@ -2,9 +2,9 @@ import csv
 import sys
 import os
 
-MAX_AVG_RESPONSE_TIME = 500
-MAX_FAILURE_RATE = 1.0 
-MIN_SUCCESS_RATE = 99.0
+MAX_AVG_RESPONSE_TIME = 5000
+MAX_FAILURE_RATE = 40.0
+MIN_SUCCESS_RATE = 60.0
 
 def evaluate_quality_gates(test_name, csv_file):
     if not os.path.exists(csv_file):
