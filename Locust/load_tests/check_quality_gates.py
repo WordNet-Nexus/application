@@ -2,9 +2,9 @@ import csv
 import sys
 import os
 
-MAX_AVG_RESPONSE_TIME = 500  # Tiempo de respuesta promedio (ms)
-MAX_FAILURE_RATE = 1.0  # Porcentaje máximo de fallos
-MIN_SUCCESS_RATE = 99.0  # Porcentaje mínimo de éxito
+MAX_AVG_RESPONSE_TIME = 500
+MAX_FAILURE_RATE = 1.0
+MIN_SUCCESS_RATE = 99.0
 
 def evaluate_quality_gates(test_name, csv_file):
     if not os.path.exists(csv_file):
@@ -42,13 +42,13 @@ def evaluate_quality_gates(test_name, csv_file):
     print(f"✅ {test_name}: Quality gates passed!")
 
 tests = {
-    "AllPaths": "./AllPaths/results_stats.csv",
-    "ShortestPath": "./Shortest/results_stats.csv",
-    "IsolatedNodes": "./Isolated/results_stats.csv",
-    "MaxDistance": "./Max/results_stats.csv",
-    "NodeConnections": "./NodeCon/results_stats.csv",
-    "StronglyConnected": "./Strongly/results_stats.csv",
-    "TopConnections": "./Top/results_stats.csv"
+    "AllPaths": "Architecture/Locust/load_tests/AllPaths/results_stats.csv",
+    "ShortestPath": "Architecture/Locust/load_tests/Shortest/results_stats.csv",
+    "IsolatedNodes": "Architecture/Locust/load_tests/Isolated/results_stats.csv",
+    "MaxDistance": "Architecture/Locust/load_tests/Max/results_stats.csv",
+    "NodeConnections": "Architecture/Locust/load_tests/NodeCon/results_stats.csv",
+    "StronglyConnected": "Architecture/Locust/load_tests/Strongly/results_stats.csv",
+    "TopConnections": "Architecture/Locust/load_tests/Top/results_stats.csv"
 }
 
 for test_name, csv_file in tests.items():
