@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences
+GET,/shortest-path/api/paths?start_word=slighted&end_word=blighted,HTTPError('500 Server Error: INTERNAL SERVER ERROR for url: /shortest-path/api/paths?start_word=slighted&end_word=blighted'),32

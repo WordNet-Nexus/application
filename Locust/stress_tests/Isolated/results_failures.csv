@@ -1,0 +1,10 @@
+Method,Name,Error,Occurrences
+GET,/isolated-nodes/isolated-nodes,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",2
+GET,/isolated-nodes/,RemoteDisconnected('Remote end closed connection without response'),16
+GET,/isolated-nodes/isolated-nodes,HTTPError('500 Server Error: INTERNAL SERVER ERROR for url: /isolated-nodes/isolated-nodes'),1801
+GET,/isolated-nodes/,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",6
+GET,/isolated-nodes/isolated-nodes,RemoteDisconnected('Remote end closed connection without response'),35
+GET,/isolated-nodes/isolated-nodes,"ConnectionRefusedError(10061, '[WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.')",300
+GET,/isolated-nodes/,"TimeoutError(10060, '[WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.')",289
+GET,/isolated-nodes/,"ConnectionRefusedError(10061, '[WinError 10061] No se puede establecer una conexión ya que el equipo de destino denegó expresamente dicha conexión.')",148
+GET,/isolated-nodes/isolated-nodes,"TimeoutError(10060, '[WinError 10060] Se produjo un error durante el intento de conexión ya que la parte conectada no respondió adecuadamente tras un periodo de tiempo, o bien se produjo un error en la conexión establecida ya que el host conectado no ha podido responder.')",585

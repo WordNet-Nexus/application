@@ -1,0 +1,12 @@
+Method,Name,Error,Occurrences
+POST,/shortest-path/download/json,RemoteDisconnected('Remote end closed connection without response'),14
+GET,/shortest-path/api/paths,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",7
+POST,/shortest-path/download/json,HTTPError('400 Client Error: BAD REQUEST for url: /shortest-path/download/json'),621
+GET,/shortest-path/,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",7
+POST,/shortest-path/,HTTPError('500 Server Error: INTERNAL SERVER ERROR for url: /shortest-path/'),38
+GET,/shortest-path/,RemoteDisconnected('Remote end closed connection without response'),13
+GET,/shortest-path/api/paths,RemoteDisconnected('Remote end closed connection without response'),7
+POST,/shortest-path/,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",1
+GET,/shortest-path/api/paths?start_word=blighted&end_word=slighted,HTTPError('500 Server Error: INTERNAL SERVER ERROR for url: /shortest-path/api/paths?start_word=blighted&end_word=slighted'),65
+POST,/shortest-path/,RemoteDisconnected('Remote end closed connection without response'),7
+POST,/shortest-path/download/json,"ConnectionResetError(10054, 'Se ha forzado la interrupción de una conexión existente por el host remoto', None, 10054, None)",14
