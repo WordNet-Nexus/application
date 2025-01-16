@@ -76,7 +76,7 @@ docker run -d --rm --network host -p 8000:8000 -e TEMP_FOLDER=/app/data/document
     -e TABLE_NAME=WordCounts \
     -e HAZELCAST_CLUSTER_MEMBERS=127.0.0.1:5701 \
     -e REGION_NAME=us-east-1 \
-    -e BUCKET_NAME=wordnetnexus-gutenberg-ulpgc \
+    -e BUCKET_NAME=wordnetnexus-gutenberg-ulpgc-1 \
     -e MONGO_HOST=$MONGO_HOST \
     -e MONGO_PORT=27017 \
     -v /root/.aws:/root/.aws:ro \
